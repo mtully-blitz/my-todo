@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     app.addRegions({
         window: '#window',
         modal: '#modal',
-        activity: '#activity'
+        todos: '#todo-app'
     });
 
     app.addInitializer(function() {

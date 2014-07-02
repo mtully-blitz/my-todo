@@ -8,10 +8,9 @@ var activity = require('built/app/activity');
 var keys = require('built/app/keys');
 var app = require('app/app');
 
-
-var MySampleView        = require('app/sample/views').MySampleView;
-var MyModalView         = require('app/sample/views').MyModalView;
-var Model               = require('backbone').Model;
+var TodoCollectionView  = require('app/todo/views/todos').TodoCollectionView;
+var TodoList            = require('app/todo/collections/todos').TodoList;
+var Todo                = require('app/todo/models/todo').Todo;
 
 
 
@@ -26,22 +25,21 @@ var AppController = marionette.Controller.extend({
     },
 
     index: function(){
-        
 
         /* Ready. Set. Go! */
         // Your Application's Regions are set in the app/app.js
         // everything else starts here. (or in another route :)
 
-
-        var model = new Model({
-            message: 'Build something! Press Shift + M to display a Modal'
+        var todo = new Todo({
+            title: 'Build something!'
         });
+        var collection = new TodoList([todo]);
 
-        this.app.window.show(new MySampleView({model: model}));
+        this.app.todos.show(new TodoCollectionView({collection: collection}));
         /* ---------- */
-        
+
     },
-    
+
     // Demo of handling Key Presses
     // Combined with Modal Handling
     keyDown: function(e){
@@ -65,7 +63,7 @@ var AppController = marionette.Controller.extend({
             return true;
         }
     },
-    
+
     BUILT: function(){
 
         // Key Management
