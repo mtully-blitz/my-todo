@@ -1,0 +1,38 @@
+// setup
+@import "config/init";
+@import "mixins/init";
+@import "extends/init";
+
+// vendor
+@import "compass/CSS3";
+@import "compass/Utilities";
+
+// scaffolding
+@import "base/init";
+
+// site component styles
+@import "blocks/init";
+
+// site specific
+
+body{
+    padding: 5rem;
+}
+
+#todo-app{
+    width: 300px;
+    margin: 0 auto;
+
+    button{
+        margin-left: 10px;
+    }
+
+    li{
+
+        &.completed{
+            text-decoration: line-through;
+        }
+    }
+}
+
+

@@ -22,6 +22,9 @@ var AppController = marionette.Controller.extend({
         // You can customize that as necessary.
         this.BUILT();
         this.app = app;
+
+        this.todoList = new TodoList();
+        this.todoList.fetch();
     },
 
     index: function(){
@@ -30,12 +33,7 @@ var AppController = marionette.Controller.extend({
         // Your Application's Regions are set in the app/app.js
         // everything else starts here. (or in another route :)
 
-        var todo = new Todo({
-            title: 'Build something!'
-        });
-        var collection = new TodoList([todo]);
-
-        this.app.todos.show(new TodoCollectionView({collection: collection}));
+        this.app.todos.show(new TodoCollectionView({collection: this.todoList}));
         /* ---------- */
 
     },

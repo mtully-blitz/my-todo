@@ -18,7 +18,7 @@ var TodoCollectionView = marionette.CompositeView.extend({
 
     events:{
         'keypress @ui.input': 'onSubmit',
-        'click #add-todo': 'onSubmit'
+        'click @ui.button': 'onSubmit'
     },
 
     // Required Method
@@ -26,13 +26,13 @@ var TodoCollectionView = marionette.CompositeView.extend({
     // modal view to the thing that cares about it.
     //
     // This is your bridge.
-    getData: function(){
+    /*getData: function(){
         return {foo: 'foo', bar: 'bar'};
-    },
+    },*/
 
     onSubmit: function (e) {
         var text = this.ui.input.val().trim();
-        if (e.which === 13 && text) {
+        if ((e.which === 13 || e.type == 'click') && text) {
             this.collection.create({
                 title: text
             });
