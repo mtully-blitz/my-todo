@@ -9,11 +9,13 @@ var TodoItemView = marionette.ItemView.extend({
     tagName: 'li',
 
     ui: {
-        button: '.update'
+        toggle: '.update',
+        remove: '.delete'
     },
 
     events:{
-        'click @ui.button': 'updateStatus',
+        'click @ui.toggle': 'updateStatus',
+        'click @ui.remove': 'deleteItem'
     },
 
     onRender: function () {
@@ -41,6 +43,10 @@ var TodoItemView = marionette.ItemView.extend({
         }else{
             this.$el.attr('class', 'active');
         }
+    },
+
+    deleteItem: function(){
+        this.model.destroy();
     }
 
 });

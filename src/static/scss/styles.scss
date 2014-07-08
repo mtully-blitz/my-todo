@@ -32,6 +32,10 @@ body{
         &.completed{
             text-decoration: line-through;
         }
+
+        .delete, input{
+            cursor: pointer;
+        }
     }
 }
 
