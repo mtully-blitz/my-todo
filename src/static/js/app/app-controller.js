@@ -3,7 +3,6 @@ define(function(require, exports, module) {
 var $ = require('jquery');
 var marionette = require('marionette');
 var vent = require('built/app/vent').vent;
-var modals = require('built/app/modals');
 var activity = require('built/app/activity');
 var keys = require('built/app/keys');
 var app = require('app/app');
@@ -33,33 +32,12 @@ var AppController = marionette.Controller.extend({
         // Your Application's Regions are set in the app/app.js
         // everything else starts here. (or in another route :)
 
+        // Not clear that I want to do this here.
+        // Might want to separate show of composite from show of todos
+        // In case fetching takes longer for long lists, slow connection, etc
         this.app.todos.show(new TodoCollectionView({collection: this.todoList}));
         /* ---------- */
 
-    },
-
-    // Demo of handling Key Presses
-    // Combined with Modal Handling
-    keyDown: function(e){
-        var key = keys.getKeyFromEvent(e);
-
-        if(key == 'M' && // shift + M
-           !this.app.modal.currentView){
-
-            var complete = function(modalView){
-                // Data from the modal:
-                console.log(modalView.getData());
-
-                // You are responsible for dismissing the modal.
-                modals.dismissModal();
-            };
-
-            // Present a modal view.
-            modals.presentModal(new MyModalView())
-                  .then(complete);
-
-            return true;
-        }
     },
 
     BUILT: function(){
@@ -68,7 +46,7 @@ var AppController = marionette.Controller.extend({
         // If you are not using the modal system,
         // but are using the key system, you can omit
         // the dictionary passed here.
-        keys.initialize({modals: modals});
+        keys.initialize();
 
         // The responder chain is a stack of views/controllers.
         // When a key event is detected, the stack is searched
@@ -89,14 +67,6 @@ var AppController = marionette.Controller.extend({
         // itself into the chain like we do here.
         keys.registerInResponderChain(this);
 
-        // Modal Management
-        // These handlers are present so you can define how the modal is
-        // shown. AKA via animation, or some other means.
-        //
-        // You should NEVER call these directly.
-        this.listenTo(vent, modals.events.PRESENT, this._presentModal);
-        this.listenTo(vent, modals.events.DISMISS, this._dismissModal);
-
         // Activity Management
         // Like modal managerment, these handlers are present so you can define
         // how the network activity indicator is presented. AKA via animation
@@ -116,18 +86,6 @@ var AppController = marionette.Controller.extend({
         this.app.activity.close();
     },
 
-    _presentModal: function(modalView){
-        this.app.modal.show(modalView);
-    },
-
-    _dismissModal: function(modalView){
-        this.app.modal.close();
-
-        // This is VERY important!
-        // You MUST call this after your
-        // modal has been dismissed.
-        modals.nextModal();
-    }
 });
 
 exports.AppController = AppController;

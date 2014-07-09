@@ -3,8 +3,6 @@ define(function(require, exports, module) {
     var app = new marionette.Application();
 
     app.addRegions({
-        window: '#window',
-        modal: '#modal',
         todos: '#todo-app'
     });
 

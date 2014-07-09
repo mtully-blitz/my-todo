@@ -37,6 +37,15 @@ body{
             cursor: pointer;
         }
     }
+
+    .filters{
+        span{
+            cursor: pointer;
+        }
+        span.on{
+            font-weight: bold;
+        }
+    }
 }
 
 

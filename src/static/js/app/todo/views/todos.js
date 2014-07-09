@@ -13,12 +13,14 @@ var TodoCollectionView = marionette.CompositeView.extend({
 
     ui: {
         input: '#new-todo-item',
-        button: '#add-todo'
+        button: '#add-todo',
+        filter: '.filters span'
     },
 
     events:{
         'keypress @ui.input': 'onSubmit',
-        'click @ui.button': 'onSubmit'
+        'click @ui.button': 'onSubmit',
+        'click @ui.filter': 'filterItems'
     },
 
     // Required Method
@@ -37,6 +39,20 @@ var TodoCollectionView = marionette.CompositeView.extend({
                 title: text
             });
             this.ui.input.val('');
+        }
+    },
+
+    filterItems: function(e){
+
+        var filter = e.currentTarget.attributes['class'].value;
+        var items;
+        if(filter == 'completed'){
+            items = this.collection.getCompleted();
+        }else if(filter == 'active'){
+            items = this.collection.getActive();
+        }else{
+            // get all
+            items = this.collection.fetch();
         }
     }
 

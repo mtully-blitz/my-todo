@@ -7,7 +7,15 @@ var Todo = require('app/todo/models/todo').Todo;
 
 var TodoList = backbone.Collection.extend({
     model: Todo,
-    localStorage: new localstorage("todo-list")
+    localStorage: new localstorage("todo-list"),
+
+    getCompleted: function(){
+        return this.filter(this._isComplete);
+    },
+
+    _isComplete: function(item){
+        return item.get('completed');
+    }
 });
 
 exports.TodoList = TodoList;
