@@ -7,9 +7,11 @@ var activity = require('built/app/activity');
 var keys = require('built/app/keys');
 var app = require('app/app');
 
-var TodoCollectionView  = require('app/todo/views/todos').TodoCollectionView;
-var TodoList            = require('app/todo/collections/todos').TodoList;
-var Todo                = require('app/todo/models/todo').Todo;
+var TodoCollectionView = require('app/todo/views/todos').TodoCollectionView;
+var HeaderView = require('app/todo/views/header').HeaderView;
+var FooterView = require('app/todo/views/footer').FooterView;
+var Todos = require('app/todo/collections/todos').Todos;
+var Todo = require('app/todo/models/todo').Todo;
 
 
 
@@ -22,22 +24,48 @@ var AppController = marionette.Controller.extend({
         this.BUILT();
         this.app = app;
 
-        this.todoList = new TodoList();
-        this.todoList.fetch();
+        this.todos = new Todos();
+        this.todos.fetch();
+
+        var footer = new FooterView({collection: this.todos, app: this.app});
+
+        this.app.header.show(new HeaderView({collection: this.todos}));
+
+        this.app.footer.show(footer);
+
+        this.listenTo(footer, 'todos:completed', this.showCompleted);
+        this.listenTo(footer, 'todos:active', this.showActive);
+        this.listenTo(footer, 'todos:all', this.showAll);
     },
 
     index: function(){
-
+        console.log('index route');
         /* Ready. Set. Go! */
         // Your Application's Regions are set in the app/app.js
         // everything else starts here. (or in another route :)
 
-        // Not clear that I want to do this here.
-        // Might want to separate show of composite from show of todos
-        // In case fetching takes longer for long lists, slow connection, etc
-        this.app.todos.show(new TodoCollectionView({collection: this.todoList}));
-        /* ---------- */
+        this.showAll();
 
+    },
+
+    showAll: function(){
+        this._showTodoList(this.todos);
+    },
+
+    showCompleted: function(){
+        var items = this.todos.getCompleted();
+
+        this._showTodoList(new Todos(items));
+    },
+
+    showActive: function(){
+        var items = this.todos.getActive();
+
+        this._showTodoList(new Todos(items));
+    },
+
+    _showTodoList: function(list){
+        this.app.todos.show(new TodoCollectionView({collection: list}));
     },
 
     BUILT: function(){

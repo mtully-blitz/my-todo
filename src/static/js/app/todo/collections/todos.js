@@ -5,7 +5,7 @@ var localstorage = require('backbone/localstorage');
 
 var Todo = require('app/todo/models/todo').Todo;
 
-var TodoList = backbone.Collection.extend({
+var Todos = backbone.Collection.extend({
     model: Todo,
     localStorage: new localstorage("todo-list"),
 
@@ -13,11 +13,20 @@ var TodoList = backbone.Collection.extend({
         return this.filter(this._isComplete);
     },
 
+    getActive: function(){
+        return this.filter(this._isActive);
+    },
+
     _isComplete: function(item){
         return item.get('completed');
+    },
+
+    _isActive: function(item){
+        return !item.get('completed');
     }
+
 });
 
-exports.TodoList = TodoList;
+exports.Todos = Todos;
 
 });

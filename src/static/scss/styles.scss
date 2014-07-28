@@ -19,13 +19,13 @@ body{
     padding: 5rem;
 }
 
-#todo-app{
-    width: 300px;
-    margin: 0 auto;
-
+header{
     button{
         margin-left: 10px;
     }
+}
+
+#todo-app{
 
     li{
 
@@ -37,7 +37,9 @@ body{
             cursor: pointer;
         }
     }
+}
 
+footer{
     .filters{
         span{
             cursor: pointer;
@@ -47,5 +49,3 @@ body{
         }
     }
 }
-
-
