@@ -10,7 +10,8 @@ var FooterView = marionette.ItemView.extend({
     ui: {
         completed: '.filters span.completed',
         active: '.filters span.active',
-        all: '.filters span.all'
+        all: '.filters span.all',
+        active_count: '.active-count'
     },
 
     events:{
@@ -21,7 +22,12 @@ var FooterView = marionette.ItemView.extend({
 
     initialize: function(options){
         this.collection = options.collection;
-        this.app = options.app;
+
+        this.listenTo(this.collection, 'change', this.updateCount);
+    },
+
+    onRender: function(){
+        this.updateCount();
     },
 
     showAll: function(e){
@@ -35,6 +41,10 @@ var FooterView = marionette.ItemView.extend({
     filterCompletedItems: function(e){
         this.trigger('todos:completed');
     },
+
+    updateCount: function(){
+        this.ui.active_count.text(this.collection.getActiveCount());
+    }
 
 });
 

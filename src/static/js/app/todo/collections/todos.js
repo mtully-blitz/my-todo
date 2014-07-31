@@ -17,6 +17,10 @@ var Todos = backbone.Collection.extend({
         return this.filter(this._isActive);
     },
 
+    getActiveCount: function(){
+        return this.getActive().length;
+    },
+
     _isComplete: function(item){
         return item.get('completed');
     },

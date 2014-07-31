@@ -14,7 +14,6 @@ var Todos = require('app/todo/collections/todos').Todos;
 var Todo = require('app/todo/models/todo').Todo;
 
 
-
 var AppController = marionette.Controller.extend({
 
     initialize: function(options){
@@ -27,15 +26,17 @@ var AppController = marionette.Controller.extend({
         this.todos = new Todos();
         this.todos.fetch();
 
-        var footer = new FooterView({collection: this.todos, app: this.app});
+        var footer = new FooterView({collection: this.todos});
 
         this.app.header.show(new HeaderView({collection: this.todos}));
 
         this.app.footer.show(footer);
 
+        // Filters
         this.listenTo(footer, 'todos:completed', this.showCompleted);
         this.listenTo(footer, 'todos:active', this.showActive);
         this.listenTo(footer, 'todos:all', this.showAll);
+
     },
 
     index: function(){
